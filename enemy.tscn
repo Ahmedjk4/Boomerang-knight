@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://1p21q1o14djg"]
+
+[ext_resource type="Script" uid="uid://bml8nckrpldfm" path="res://scripts/enemy.gd" id="1_4gyqm"]
+[ext_resource type="Texture2D" uid="uid://c0l4t06hsyvwn" path="res://Demon-Sprite-Sheet-Pixel-Art-Pack2-720x480-removebg-preview.png" id="2_qi2p4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
+atlas = ExtResource("2_qi2p4")
+region = Rect2(293, 22, 33, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epg4t"]
+atlas = ExtResource("2_qi2p4")
+region = Rect2(357, 23, 33, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yqyl"]
+atlas = ExtResource("2_qi2p4")
+region = Rect2(423, 24, 32, 35)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7xaro"]
+animations = [{
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_iifgy")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_epg4t")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_3yqyl")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="EnemyFeet"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="EnemyHurtbox"]
+radius = 26.0
+
+[sub_resource type="CircleShape2D" id="EnemyContact"]
+radius = 27.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1568416411]
+motion_mode = 1
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_4gyqm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1489839974]
+scale = Vector2(1.6384616, 1.6470588)
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_7xaro")
+frame_progress = 0.41856256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("EnemyFeet")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("EnemyHurtbox")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("EnemyContact")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

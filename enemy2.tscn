@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bpabor771jx8m"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="enemy_script"]
+
+[ext_resource type="Texture2D" uid="uid://b3eu24sguvxpd" path="res://enemy2.png" id="1_jfe6r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jugo2"]
+atlas = ExtResource("1_jfe6r")
+region = Rect2(270, 87, 38, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3jlp"]
+atlas = ExtResource("1_jfe6r")
+region = Rect2(149, 196, 44, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fb6pl"]
+atlas = ExtResource("1_jfe6r")
+region = Rect2(89, 220, 40, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cp8lj"]
+atlas = ExtResource("1_jfe6r")
+region = Rect2(150, 327, 38, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1elri"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jugo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3jlp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fb6pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cp8lj")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="EnemyFeet"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="EnemyHurtbox"]
+radius = 26.0
+
+[sub_resource type="CircleShape2D" id="EnemyContact"]
+radius = 27.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1828088260]
+motion_mode = 1
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("enemy_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=667421450]
+scale = Vector2(1.6384616, 1.6470588)
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_1elri")
+frame_progress = 0.47605598
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("EnemyFeet")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("EnemyHurtbox")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("EnemyContact")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

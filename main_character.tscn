@@ -1,0 +1,177 @@
+[gd_scene format=3 uid="uid://2rup4my1shpd"]
+
+[ext_resource type="Script" uid="uid://dsapl33oobcrt" path="res://scripts/main_character.gd" id="1_wmkwl"]
+[ext_resource type="Texture2D" uid="uid://bc1dulb5ktqpx" path="res://sword_1/walk_1.png" id="walk_1"]
+[ext_resource type="Texture2D" uid="uid://d000pa3rdi47p" path="res://sword_1/walk_2.png" id="walk_2"]
+[ext_resource type="Texture2D" uid="uid://c8kuwm8cm6hob" path="res://sword_1/walk_3.png" id="walk_3"]
+[ext_resource type="Texture2D" uid="uid://butojfnwcdelw" path="res://sword_1/walk_4.png" id="walk_4"]
+[ext_resource type="Texture2D" uid="uid://dpa6m1p67bala" path="res://sword_1/walk_5.png" id="walk_5"]
+[ext_resource type="Texture2D" uid="uid://dxpufyublw8cu" path="res://sword_1/walk_6.png" id="walk_6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eooai"]
+bg_color = Color(0.08, 0.06, 0.07, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3qwm1"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StaminaFill"]
+bg_color = Color(0.72, 0.64, 0.26, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3ivu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk_1")
+}],
+"loop": 1,
+"name": &"idle_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk_1")
+}],
+"loop": 1,
+"name": &"idle_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk_1")
+}],
+"loop": 1,
+"name": &"idle_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_6")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_6")
+}],
+"loop": 1,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk_6")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2v62t"]
+radius = 18.0
+height = 86.0
+
+[sub_resource type="CircleShape2D" id="FootShape"]
+radius = 14.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1283235827]
+collision_layer = 2
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_wmkwl")
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=2147361541]
+offset_left = -40.0
+offset_top = -67.75
+offset_right = 42.0
+offset_bottom = -57.75
+theme_override_font_sizes/font_size = 11
+theme_override_styles/background = SubResource("StyleBoxFlat_eooai")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3qwm1")
+value = 100.0
+show_percentage = false
+
+[node name="StaminaBar" type="ProgressBar" parent="." unique_id=1162215573]
+offset_left = -40.0
+offset_top = -54.75
+offset_right = 42.0
+offset_bottom = -48.75
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_eooai")
+theme_override_styles/fill = SubResource("StaminaFill")
+value = 100.0
+show_percentage = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1823335460]
+texture_filter = 1
+position = Vector2(2, -2.25)
+scale = Vector2(2.5599992, 3.232558)
+sprite_frames = SubResource("SpriteFrames_x3ivu")
+animation = &"idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 35)
+shape = SubResource("FootShape")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_2v62t")
